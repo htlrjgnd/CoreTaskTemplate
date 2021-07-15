@@ -1,34 +1,28 @@
 package jm.task.core.jdbc.util;
 
+
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+
+
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class Util {
-    private static Connection getMySqlConnection() throws SQLException {
-        String hostName = "localhost";
-        String dbName = "mysql";
-        String userName = "root";
-        String password = "root";
+    private static final String URL = "jdbc:mysql://localhost:3306/mysql";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "root";
+    private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 
-        return getMySqlConnection(hostName, dbName, userName, password);
-    }
-
-    private static Connection getMySqlConnection(String hostName, String dbName,
-                                                 String userName, String password)
-            throws SQLException {
-        String connectionURL = "jdbc:mysql://" + hostName + ":3306/" + dbName;
-        Connection conn = DriverManager.getConnection(connectionURL, userName, password);
+    public static Connection getMySqlConnection() throws SQLException, ClassNotFoundException {
+        Class.forName(JDBC_DRIVER);
+        Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        conn.setAutoCommit(false);
         return conn;
-    }
-
-    public static Statement getStatement() {
-        try {
-            return getMySqlConnection().createStatement();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return null;
     }
 }
