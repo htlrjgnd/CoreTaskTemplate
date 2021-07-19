@@ -11,8 +11,7 @@ public class Main {
         userService.saveUser("Dennis", "Rader", (byte)89);
         userService.saveUser("Edmund", "Kemper ", (byte)90);
         userService.getAllUsers();
-        //userService.cleanUsersTable();
-        //userService.dropUsersTable();
-
+        userService.cleanUsersTable();
+        userService.dropUsersTable();
     }
 }

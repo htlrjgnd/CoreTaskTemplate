@@ -3,7 +3,6 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ public class UserDaoJDBCImpl implements UserDao {
                     "name VARCHAR(50), " +
                     "lastname VARCHAR(50), " +
                     "age TINYINT, PRIMARY KEY(id))");
-        } catch (SQLException  throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -94,11 +93,11 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
-            try{
-                if(connection != null) {
+            try {
+                if (connection != null) {
                     connection.close();
                 }
-                if(statement != null) {
+                if (statement != null) {
                     statement.close();
                 }
             } catch (SQLException throwables) {
@@ -109,12 +108,12 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public List<User> getAllUsers() {
         List<User> list = new ArrayList<>();
-        try(Connection connection = Util.getMySqlConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM users")
-        ){
+        try (Connection connection = Util.getMySqlConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM users")
+        ) {
             User user;
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 user = new User(resultSet.getString("name"),
                         resultSet.getString("lastname"),
                         resultSet.getByte("age"));
@@ -126,16 +125,16 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        for(User user : list){
+        for (User user : list) {
             System.out.println(user);
         }
         return list;
     }
 
     public void cleanUsersTable() {
-        try(Connection connection = Util.getMySqlConnection();
-            Statement statement = connection.createStatement();
-        ){
+        try (Connection connection = Util.getMySqlConnection();
+             Statement statement = connection.createStatement();
+        ) {
             statement.executeUpdate("TRUNCATE TABLE users");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
